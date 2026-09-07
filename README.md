@@ -65,6 +65,3 @@ deploy/                        systemd unit reference
 CHANGELOG.md                   Version history
 ```
 
-## Built By
-
-Yichen, a high school cybersecurity researcher who learns by taking systems apart, following the evidence, and building them back better.

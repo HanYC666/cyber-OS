@@ -1,0 +1,16 @@
+[Unit]
+Description=CyberOS embedded static web server
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/Hackclub/cyberOS
+ExecStart=/root/Hackclub/cyberOS/cyberos-server-linux-armv6 -addr 127.0.0.1:8010
+Restart=always
+RestartSec=2
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
