@@ -25,7 +25,7 @@
 - A reproducible Linux ARMv6 static-server source and Raspberry Pi Zero W binary that listens on `127.0.0.1:8010` by default.
 - The `cyberos-server-linux-armv6` executable: a stripped, statically linked Linux ARM EABI5 binary sized for the Raspberry Pi Zero W.
 - A self-contained build that embeds the CyberOS frontend (`index.html`, `styles.css`, and `app.js`) directly into the executable.
-- A `cyberos.service` systemd unit for DietPi, with boot-time startup and `Restart=always` supervision.
+- A `cyberos_hackclub-project.service` systemd unit for DietPi, with boot-time startup and `Restart=always` supervision.
 
 ### Changed
 
