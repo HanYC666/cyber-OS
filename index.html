@@ -3,59 +3,71 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Aurora OS: a browser-native desktop and Linux terminal simulator." />
-  <title>Aurora OS</title>
+  <meta name="description" content="CyberOS: a browser-native desktop and Linux terminal simulator." />
+  <title>CyberOS</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main id="desktop" aria-label="Aurora OS desktop">
+  <main id="desktop" aria-label="CyberOS desktop">
+    <canvas id="matrix-rain" aria-hidden="true"></canvas>
     <header class="menubar">
-      <div class="menu-left"><button class="apple" aria-label="Aurora menu">◆</button><strong>Aurora</strong><span>File</span><span>Edit</span><span>View</span><span>Window</span><span>Help</span></div>
-      <div class="menu-right"><span aria-label="network connected">◔</span><span>⌁</span><span id="clock"></span></div>
+      <div class="menu-left"><button class="apple menu-trigger" data-menu="apps" aria-label="Application menu">◆</button><strong>CyberOS</strong><button class="menu-trigger" data-menu="apps">Apps</button><button class="menu-trigger" data-menu="file">File</button><button class="menu-trigger" data-menu="window">Window</button></div>
+      <div class="menu-right"><span aria-label="network connected">◔</span><span>⌁</span><button id="clock" class="clock-button" aria-label="Open calendar"></button></div>
+      <div class="menu-popover hidden" id="apps-menu"><button data-open="terminal">Terminal <kbd>⌘ 1</kbd></button><button data-open="files">File Explorer <kbd>⌘ 2</kbd></button><button data-open="calculator">Calculator <kbd>⌘ 3</kbd></button><button data-open="calendar">Calendar <kbd>⌘ 4</kbd></button><hr><button data-open="devlog">Devlog</button><button data-open="about">About CyberOS</button></div>
+      <div class="menu-popover hidden" id="file-menu"><button data-open="files">Open File Explorer</button><button data-open="terminal">New Terminal</button><button data-open="calculator">Open Calculator</button></div>
+      <div class="menu-popover hidden" id="window-menu"><button data-window-action="minimize">Minimize Active</button><button data-window-action="maximize">Maximize / Restore</button><button data-window-action="close">Close Active</button><hr><button data-window-action="tile">Tile Windows</button></div>
     </header>
 
     <section class="desktop-icons" aria-label="Desktop shortcuts">
-      <button class="desktop-icon" data-open="files"><i class="folder-icon">▰</i><span>Projects</span></button>
+      <button class="desktop-icon" data-open="files"><i class="folder-icon">▰</i><span>Filesystem</span></button>
       <button class="desktop-icon" data-open="devlog"><i class="file-icon">▤</i><span>Devlog.md</span></button>
-      <button class="desktop-icon" data-open="about"><i class="app-icon">✦</i><span>About Aurora</span></button>
+      <button class="desktop-icon" data-open="about"><i class="app-icon">✦</i><span>About CyberOS</span></button>
     </section>
 
     <section class="window terminal-window active" id="terminal" data-app="terminal" style="left: 7vw; top: 12vh; width: min(760px, 86vw); height: min(510px, 67vh);">
-      <div class="titlebar"><div class="traffic"><button class="close" aria-label="Close terminal"></button><button class="minimize" aria-label="Minimize terminal"></button><button class="maximize" aria-label="Maximize terminal"></button></div><span>terminal - aurora@webos</span><span class="title-space"></span></div>
+      <div class="titlebar"><div class="traffic"><button class="close" aria-label="Close terminal"></button><button class="minimize" aria-label="Minimize terminal"></button><button class="maximize" aria-label="Maximize terminal"></button></div><span>terminal - root@cyberos</span><span class="title-space"></span></div>
       <div class="terminal-body" id="terminal-output" aria-live="polite">
-        <div class="terminal-welcome"><span class="logo-mark">◆</span><div><b>Aurora OS Terminal</b><br><span>Browser-native Linux environment · Type <code>help</code> to explore.</span></div></div>
-        <div class="line"><span class="prompt">aurora@webos <b>~/projects</b> %</span> <span>neofetch</span></div>
-        <pre id="boot-output">          .--.                 aurora@webos
-       .-(    ).              ---------------
-      (___.__)__)             OS: Aurora OS (Web) x86_64
-       /  /                   Host: Your browser
-      /__/                    Kernel: client-side 1.0
-                              Shell: aurora-sh
-                              Memory: 0 server processes</pre>
+        <div class="terminal-welcome"><span class="logo-mark">◆</span><div><b>CyberOS Terminal</b><br><span>Browser-native Linux environment · Type <code>help</code> to explore.</span></div></div>
+        <div class="line"><span class="prompt">root@cyberos <b>~</b> #</span> <span>neofetch</span></div>
+        <pre id="boot-output">[ ACCESS GRANTED ]
+IDENTITY: YC · ROLE: High School Cybersecurity Researcher · STATUS: Active
+CyberOS · client-side runtime · 0 server processes</pre>
       </div>
-      <form class="terminal-input-row" id="terminal-form"><label for="terminal-input" class="prompt">aurora@webos <b>~/projects</b> %</label><input id="terminal-input" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus aria-label="Terminal command" /></form>
+      <form class="terminal-input-row" id="terminal-form"><label for="terminal-input" class="prompt">root@cyberos <b>~</b> #</label><input id="terminal-input" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus aria-label="Terminal command" /></form>
       <div class="resize-handle" aria-hidden="true"></div>
     </section>
 
     <section class="window files-window hidden" id="files" data-app="files" style="left: 18vw; top: 16vh; width: min(650px, 78vw); height: min(430px, 59vh);">
-      <div class="titlebar"><div class="traffic"><button class="close" aria-label="Close files"></button><button class="minimize" aria-label="Minimize files"></button><button class="maximize" aria-label="Maximize files"></button></div><span>Projects</span><span class="title-space"></span></div>
-      <div class="finder"><aside><b>Favorites</b><button>⌂ Home</button><button class="selected">▰ Projects</button><button>⇩ Downloads</button><b>Tags</b><button><i class="tag blue"></i> Focus</button><button><i class="tag pink"></i> Ship</button></aside><div class="file-area"><div class="path">Projects <span>/</span> webos</div><div class="file-grid"><button data-open="devlog"><i class="doc-icon">▤</i><span>devlog.md</span></button><button data-open="about"><i class="doc-icon purple">✦</i><span>about.txt</span></button><button data-open="terminal"><i class="terminal-icon">›_</i><span>terminal.app</span></button><button><i class="folder-icon">▰</i><span>assets</span></button></div></div></div>
+      <div class="titlebar"><div class="traffic"><button class="close" aria-label="Close files"></button><button class="minimize" aria-label="Minimize files"></button><button class="maximize" aria-label="Maximize files"></button></div><span>File Explorer</span><span class="title-space"></span></div>
+      <div class="finder"><aside id="file-sidebar"></aside><div class="file-area"><div class="finder-toolbar"><button id="file-up" aria-label="Parent folder">←</button><div class="path" id="file-path">/</div></div><div class="file-grid" id="file-grid"></div><pre id="file-preview" class="file-preview hidden"></pre></div></div>
+      <div class="resize-handle" aria-hidden="true"></div>
+    </section>
+
+    <section class="window utility-window hidden" id="calculator" data-app="calculator" style="left: 42vw; top: 18vh; width: 340px; height: 465px;">
+      <div class="titlebar"><div class="traffic"><button class="close" aria-label="Close calculator"></button><button class="minimize" aria-label="Minimize calculator"></button><button class="maximize" aria-label="Maximize calculator"></button></div><span>Calculator</span><span class="title-space"></span></div>
+      <div class="calculator"><output id="calc-display" aria-live="polite">0</output><div class="calc-keys"><button data-calc="clear" class="muted-key">AC</button><button data-calc="delete" class="muted-key">⌫</button><button data-calc="operator" class="muted-key">%</button><button data-calc="/" class="operator-key">÷</button><button data-calc="7">7</button><button data-calc="8">8</button><button data-calc="9">9</button><button data-calc="*" class="operator-key">×</button><button data-calc="4">4</button><button data-calc="5">5</button><button data-calc="6">6</button><button data-calc="-" class="operator-key">−</button><button data-calc="1">1</button><button data-calc="2">2</button><button data-calc="3">3</button><button data-calc="+" class="operator-key">+</button><button data-calc="0" class="span-two">0</button><button data-calc=".">.</button><button data-calc="equals" class="equals-key">=</button></div></div>
+      <div class="resize-handle" aria-hidden="true"></div>
+    </section>
+
+    <section class="window utility-window hidden" id="calendar" data-app="calendar" style="left: 47vw; top: 12vh; width: 385px; height: 450px;">
+      <div class="titlebar"><div class="traffic"><button class="close" aria-label="Close calendar"></button><button class="minimize" aria-label="Minimize calendar"></button><button class="maximize" aria-label="Maximize calendar"></button></div><span>Calendar</span><span class="title-space"></span></div>
+      <div class="calendar"><div class="calendar-heading"><div><span id="calendar-month"></span><b id="calendar-year"></b></div><p id="calendar-today"></p></div><div class="weekdays"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div><div class="calendar-grid" id="calendar-grid"></div><section class="agenda"><b>Today</b><p><i></i> Keep exploring CyberOS</p></section></div>
       <div class="resize-handle" aria-hidden="true"></div>
     </section>
 
     <section class="window document-window hidden" id="devlog" data-app="devlog" style="left: 28vw; top: 11vh; width: min(600px, 76vw); height: min(550px, 72vh);">
       <div class="titlebar"><div class="traffic"><button class="close" aria-label="Close devlog"></button><button class="minimize" aria-label="Minimize devlog"></button><button class="maximize" aria-label="Maximize devlog"></button></div><span>devlog.md</span><span class="title-space"></span></div>
-      <article class="document"><p class="eyebrow">BUILD NOTES · WEBOS</p><h1>Aurora OS</h1><p class="lead">A small desktop for trying ideas without leaving the browser.</p><section><time>Day 01</time><h2>The desktop took shape</h2><p>Built a glassy desktop shell with a real menu bar, dock, and window manager. Every app can move, close, minimize, and return to the foreground.</p></section><section><time>Day 02</time><h2>The shell became useful</h2><p>Added a simulated Linux filesystem and command history. The whole system lives in the browser, so it stays light enough for a tiny host.</p></section><section><time>Day 03</time><h2>Network tools, locally minded</h2><p>Added read-only client-side <code>curl</code> and <code>ping</code> requests plus simulated <code>nmap</code> and <code>dig</code> output for learning workflows.</p></section><section><time>Day 04</time><h2>One extra: session recall</h2><p>Terminal history, theme preference, and notes are remembered in local storage. No account, password, or server database involved.</p></section></article>
+      <article class="document"><p class="eyebrow">BUILD NOTES · CYBEROS</p><h1>CyberOS</h1><p class="lead">A small desktop for trying ideas without leaving the browser.</p><section><time>Day 01</time><h2>The desktop took shape</h2><p>Built a glassy desktop shell with a real menu bar, dock, and window manager. Every app can move, close, minimize, and return to the foreground.</p></section><section><time>Day 02</time><h2>The shell became useful</h2><p>Added a simulated Linux filesystem and command history. The whole system lives in the browser, so it stays light enough for a tiny host.</p></section><section><time>Day 03</time><h2>Network tools, locally minded</h2><p>Added read-only client-side <code>curl</code> and <code>ping</code> requests plus simulated <code>nmap</code> and <code>dig</code> output for learning workflows.</p></section><section><time>Day 04</time><h2>One extra: session recall</h2><p>Terminal history, theme preference, and notes are remembered in local storage. No account, password, or server database involved.</p></section></article>
       <div class="resize-handle" aria-hidden="true"></div>
     </section>
 
     <section class="window document-window hidden" id="about" data-app="about" style="left: 35vw; top: 19vh; width: min(510px, 72vw); height: min(390px, 58vh);">
-      <div class="titlebar"><div class="traffic"><button class="close" aria-label="Close about Aurora"></button><button class="minimize" aria-label="Minimize about Aurora"></button><button class="maximize" aria-label="Maximize about Aurora"></button></div><span>About Aurora</span><span class="title-space"></span></div>
-      <article class="about"><div class="about-mark">◆</div><h1>Aurora OS</h1><p>Version 1.0 · Browser edition</p><hr><p>A quiet, client-first desktop inspired by systems that leave room to think.</p><div class="stats"><span><b>0</b> server processes</span><span><b>GET</b> only network mode</span><span><b>100%</b> static files</span></div></article>
+      <div class="titlebar"><div class="traffic"><button class="close" aria-label="Close about CyberOS"></button><button class="minimize" aria-label="Minimize about CyberOS"></button><button class="maximize" aria-label="Maximize about CyberOS"></button></div><span>About CyberOS</span><span class="title-space"></span></div>
+      <article class="about"><div class="about-mark">◆</div><h1>CyberOS</h1><p>Version 1.1 · Browser edition</p><hr><p>A quiet, client-first desktop inspired by systems that leave room to think.</p><div class="stats"><span><b>0</b> server processes</span><span><b>GET</b> only network mode</span><span><b>100%</b> static files</span></div></article>
       <div class="resize-handle" aria-hidden="true"></div>
     </section>
 
-    <nav class="dock" aria-label="Application dock"><button class="dock-item finder-dock" data-open="files" aria-label="Open Projects"><span>▰</span></button><button class="dock-item terminal-dock running" data-open="terminal" aria-label="Open Terminal"><span>›_</span></button><button class="dock-item notes-dock" data-open="devlog" aria-label="Open Devlog"><span>▤</span></button><button class="dock-item aurora-dock" data-open="about" aria-label="Open About Aurora"><span>◆</span></button><span class="dock-divider"></span><button class="dock-item bin-dock" data-open="about" aria-label="Open About"><span>▧</span></button></nav>
+    <nav class="dock" aria-label="Application dock"><button class="dock-item finder-dock" data-open="files" aria-label="Open File Explorer"><span>▰</span></button><button class="dock-item terminal-dock running" data-open="terminal" aria-label="Open Terminal"><span>›_</span></button><button class="dock-item calculator-dock" data-open="calculator" aria-label="Open Calculator"><span>＋</span></button><button class="dock-item calendar-dock" data-open="calendar" aria-label="Open Calendar"><span>◫</span></button><button class="dock-item notes-dock" data-open="devlog" aria-label="Open Devlog"><span>▤</span></button><button class="dock-item aurora-dock" data-open="about" aria-label="Open About CyberOS"><span>◆</span></button><span class="dock-divider"></span><button class="dock-item bin-dock" data-open="about" aria-label="Open About"><span>▧</span></button></nav>
     <div class="toast" id="toast" role="status"></div>
   </main>
   <script src="app.js"></script>
