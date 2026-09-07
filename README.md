@@ -65,3 +65,6 @@ deploy/                        systemd unit reference
 CHANGELOG.md                   Version history
 ```
 
+## AI disclosure
+
+GPT 5.6 Luna was used to help format parts of the code and enforce backend security.
